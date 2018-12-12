@@ -1679,6 +1679,8 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			mopt->rem_id = mpjoin->addr_id;
 			mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
+			mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
+			printk("MPTCP HMAC %d\n",mopt->hmac_tnb_rcv);//#THARINDU
 			break;
 		case MPTCP_SUB_LEN_JOIN_SYNACK:
 			mopt->saw_mpc = 1;

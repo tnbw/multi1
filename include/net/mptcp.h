@@ -159,6 +159,7 @@ struct mptcp_options_received {
 	u32	mptcp_recv_nonce;
 	u64	mptcp_recv_tmac;
 	u8	mptcp_recv_mac[20];
+	u32 hmac_tnb_rcv; //#THARINDU
 };
 
 struct mptcp_tcp_sock {
