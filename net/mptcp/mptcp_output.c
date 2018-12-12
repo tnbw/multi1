@@ -1093,6 +1093,9 @@ void mptcp_options_write(__be32 *ptr, struct tcp_sock *tp,
 		mpc->rsv = 0;
 		mpc->h = 1;
 	}
+	/*
+		need to change this #THARINDU
+	*/
 	if (unlikely(OPTION_MP_JOIN & opts->mptcp_options)) {
 		struct mp_join *mpj = (struct mp_join *)ptr;
 
