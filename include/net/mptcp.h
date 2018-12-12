@@ -523,6 +523,7 @@ struct mp_join {
 		struct {
 			u32	token;
 			u32	nonce;
+			u32 hmac_tnb;//#THARINDU
 		} syn;
 		struct {
 			__u64	mac;
