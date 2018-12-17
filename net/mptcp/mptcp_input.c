@@ -1649,10 +1649,10 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 
 		if (opsize >= MPTCP_SUB_LEN_CAPABLE_SYN)
 			mopt->mptcp_sender_key = mpcapable->sender_key;
-			pr_info("MPTCP MP_CAPABLE SYN");//#THARINDU
+			pr_info("MPTCP MP_CAPABLE SYN sender_key - %llu", mpcapable->sender_key);//#THARINDU
 		if (opsize == MPTCP_SUB_LEN_CAPABLE_ACK)
 			mopt->mptcp_receiver_key = mpcapable->receiver_key;
-			pr_info("MPTCP MP_CAPABLE ACK");//#THARINDU
+			pr_info("MPTCP MP_CAPABLE ACK receiver_key - %llu", mpcapable->receiver_key);//#THARINDU
 		mopt->mptcp_ver = mpcapable->ver;
 		break;
 	}
@@ -1682,7 +1682,8 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
 			mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
-			pr_info("MPTCP HMAC %d\n",mopt->hmac_tnb_rcv);//#THARINDU
+			pr_info("mopt->hmac_tnb_rcv = %d\n",mopt->hmac_tnb_rcv);//#THARINDU
+			pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
 			//THARINDU
 			pr_info("MPTCP MP_JOIN SYN");//#THARINDU
 			if (mopt->hmac_tnb_rcv == 100) {
