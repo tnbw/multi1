@@ -1681,9 +1681,12 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			mopt->rem_id = mpjoin->addr_id;
 			mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
-			mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
+			//mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
+			//mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
+			mopt->hmac_tnb_rcv = mpjoin->hmac_tnb; //#THARINDU
 			pr_info("mopt->hmac_tnb_rcv = %d\n",mopt->hmac_tnb_rcv);//#THARINDU
-			pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
+			//pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
+			pr_info("mpjoin->hmac_tnb = %d\n",mpjoin->hmac_tnb);//#THARINDU
 			pr_info("mopt->mptcp_rem_token = %d", mopt->mptcp_rem_token);//#THARINDU
 			//THARINDU
 			pr_info("MPTCP MP_JOIN SYN");//#THARINDU

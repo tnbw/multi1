@@ -1111,8 +1111,10 @@ void mptcp_options_write(__be32 *ptr, struct tcp_sock *tp,
 			mpj->b = opts->mp_join_syns.low_prio;
 			mpj->addr_id = opts->addr_id;
 			//#THARINDU
-			mpj->u.syn.hmac_tnb = opts->mp_join_syns.mptcp_hmac_tnb;
-			pr_info("mptcp_output.c mptcp_option_wite() mpj->u.syn.hmac_tnb = %d", mpj->u.syn.hmac_tnb);//##THARINDU
+			//mpj->u.syn.hmac_tnb = opts->mp_join_syns.mptcp_hmac_tnb;
+			mpj->hmac_tnb = opts->mp_join_syns.mptcp_hmac_tnb;
+			//pr_info("mptcp_output.c mptcp_option_wite() mpj->u.syn.hmac_tnb = %d", mpj->u.syn.hmac_tnb);//##THARINDU
+			pr_info("mptcp_output.c mptcp_option_wite() mpj->u.syn.hmac_tnb = %d", mpj->hmac_tnb);//##THARINDU
 			pr_info("mpj->u.syn.token = %d", mpj->u.syn.token);//#THARINDU
 			ptr += MPTCP_SUB_LEN_JOIN_SYN_ALIGN >> 2;
 		} else if (OPTION_TYPE_SYNACK & opts->mptcp_options) {

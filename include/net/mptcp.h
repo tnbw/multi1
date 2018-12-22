@@ -522,11 +522,12 @@ struct mp_join {
 #error	"Adjust your <asm/byteorder.h> defines"
 #endif
 	__u8	addr_id;
+	__u32	hmac_tnb; //#THARINDU moved from union
 	union {
 		struct {
 			u32	token;
 			u32	nonce;
-			u32 hmac_tnb;//#THARINDU
+			//u32 hmac_tnb;//#THARINDU moving this out of the union 
 		} syn;
 		struct {
 			__u64	mac;
