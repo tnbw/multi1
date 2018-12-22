@@ -899,8 +899,9 @@ void mptcp_syn_options(const struct sock *sk, struct tcp_out_options *opts,
 		/*
 		add hmac/mac values #THARINDU
 		*/
+		pr_info("Before assigning the value to mptcp_hmac_tnb value is %d", opts->mp_join_syns.mptcp_hmac_tnb); //#THARINDU
 		opts->mp_join_syns.mptcp_hmac_tnb = 100;//#THARINDU
-
+		pr_info("The value I assigned to mptcp_hmac_tnb is 100, and %d", opts->mp_join_syns.mptcp_hmac_tnb); //#THARINDU
 	}
 
 	
@@ -1111,7 +1112,8 @@ void mptcp_options_write(__be32 *ptr, struct tcp_sock *tp,
 			mpj->addr_id = opts->addr_id;
 			//#THARINDU
 			mpj->u.syn.hmac_tnb = opts->mp_join_syns.mptcp_hmac_tnb;
-
+			pr_info("mptcp_output.c mptcp_option_wite() mpj->u.syn.hmac_tnb = %d", mpj->u.syn.hmac_tnb);//##THARINDU
+			pr_info("mpj->u.syn.token = %d", mpj->u.syn.token);//#THARINDU
 			ptr += MPTCP_SUB_LEN_JOIN_SYN_ALIGN >> 2;
 		} else if (OPTION_TYPE_SYNACK & opts->mptcp_options) {
 			mpj->len = MPTCP_SUB_LEN_JOIN_SYNACK;

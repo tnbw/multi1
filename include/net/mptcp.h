@@ -331,6 +331,8 @@ struct mptcp_cb {
 	__u64	mptcp_rem_key;
 	__u32	mptcp_loc_token;
 	__u32	mptcp_rem_token;
+	__u32	hmac_tnb_rcv; //#THARINDU
+
 
 #define MPTCP_PM_SIZE 608
 	u8 mptcp_pm[MPTCP_PM_SIZE] __aligned(8);
