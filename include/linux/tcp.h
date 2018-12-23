@@ -115,7 +115,7 @@ struct tcp_out_options {
 			/*
 				hmac #THARINDU
 			*/
-			__u32	mptcp_hmac_tnb;//#THARINDU
+			//__u16	mptcp_hmac_tnb;//#THARINDU
 		} mp_join_syns;
 	};
 

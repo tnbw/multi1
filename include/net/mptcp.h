@@ -101,7 +101,7 @@ struct mptcp_request_sock {
 			/*
 			this is to store the HMAC/MAC #THARINDU
 			*/
-			u32		mptcp_hmac_for_auth_tnb;//#THARINDU
+			//u16		mptcp_hmac_for_auth_tnb;//#THARINDU
 
 		};
 	};
@@ -159,7 +159,7 @@ struct mptcp_options_received {
 	u32	mptcp_recv_nonce;
 	u64	mptcp_recv_tmac;
 	u8	mptcp_recv_mac[20];
-	u32 hmac_tnb_rcv; //#THARINDU
+	//u16 hmac_tnb_rcv; //#THARINDU
 };
 
 struct mptcp_tcp_sock {
@@ -331,8 +331,7 @@ struct mptcp_cb {
 	__u64	mptcp_rem_key;
 	__u32	mptcp_loc_token;
 	__u32	mptcp_rem_token;
-	__u32	hmac_tnb_rcv; //#THARINDU
-
+	//__u16	hmac_tnb_rcv; //#THARINDU
 
 #define MPTCP_PM_SIZE 608
 	u8 mptcp_pm[MPTCP_PM_SIZE] __aligned(8);
@@ -359,8 +358,8 @@ struct mptcp_cb {
 #define MPTCP_VERSION_1 1
 
 #define MPTCP_SUB_CAPABLE			0
-#define MPTCP_SUB_LEN_CAPABLE_SYN		12
-#define MPTCP_SUB_LEN_CAPABLE_SYN_ALIGN		12
+#define MPTCP_SUB_LEN_CAPABLE_SYN		12 //THARINDU change 12 to 14 not worked
+#define MPTCP_SUB_LEN_CAPABLE_SYN_ALIGN		12 //THARINDU change 12 to 14 not worked
 #define MPTCP_SUB_LEN_CAPABLE_ACK		20
 #define MPTCP_SUB_LEN_CAPABLE_ACK_ALIGN		20
 
@@ -522,12 +521,12 @@ struct mp_join {
 #error	"Adjust your <asm/byteorder.h> defines"
 #endif
 	__u8	addr_id;
-	__u32	hmac_tnb; //#THARINDU moved from union
+	//__u32	hmac_tnb; //#THARINDU moved from union
 	union {
 		struct {
 			u32	token;
 			u32	nonce;
-			//u32 hmac_tnb;//#THARINDU moving this out of the union 
+			//__u16 hmac_tnb;//#THARINDU moving this out of the union
 		} syn;
 		struct {
 			__u64	mac;
