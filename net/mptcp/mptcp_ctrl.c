@@ -59,6 +59,13 @@
 #include <linux/atomic.h>
 #include <linux/sysctl.h>
 
+/*
+	varibale to store token THARINDU
+*/
+	 int token_tnb;
+
+//#THARINDU
+
 static struct kmem_cache *mptcp_sock_cache __read_mostly;
 static struct kmem_cache *mptcp_cb_cache __read_mostly;
 static struct kmem_cache *mptcp_tw_cache __read_mostly;
@@ -1041,6 +1048,7 @@ static const struct tcp_sock_ops mptcp_sub_specific = {
 	.cleanup_rbuf			= tcp_cleanup_rbuf,
 };
 
+
 static int mptcp_alloc_mpcb(struct sock *meta_sk, __u64 remote_key,
 			    __u8 mptcp_ver, u32 window)
 {
@@ -1111,7 +1119,9 @@ static int mptcp_alloc_mpcb(struct sock *meta_sk, __u64 remote_key,
 
 	/* Store the keys and generate the peer's token */
 	mpcb->mptcp_loc_key = meta_tp->mptcp_loc_key;
-	mpcb->mptcp_loc_token = meta_tp->mptcp_loc_token;
+	mpcb->mptcp_loc_token = meta_tp->mptcp_loc_token; //#THARINDU token generation 
+	token_tnb = meta_tp->mptcp_loc_token; //#THARINDU
+	pr_info("mptcp_ctrl token_tnb = %d ",meta_tp->mptcp_loc_token);//#THARINDU
 
 	/* Generate Initial data-sequence-numbers */
 	mptcp_key_sha1(mpcb->mptcp_loc_key, NULL, &idsn);
