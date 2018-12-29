@@ -110,12 +110,11 @@ struct tcp_out_options {
 			__u32	sender_nonce;
 					/* random number of the sender */
 			__u32	token;	/* token for mptcp */
-			u8	low_prio:1;
-
+			u8	low_prio:1;			
 			/*
 				hmac #THARINDU
 			*/
-			//__u16	mptcp_hmac_tnb;//#THARINDU
+			__u16	mptcp_hmac_tnb;//#THARINDU
 		} mp_join_syns;
 	};
 

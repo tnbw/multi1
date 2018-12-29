@@ -46,6 +46,7 @@ static inline void tls_make_aad(int recv,
 				int record_sequence_size,
 				unsigned char record_type)
 {
+	pr_info("tls_make_aad TLS");
 	memcpy(buf, record_sequence, record_sequence_size);
 
 	buf[8] = record_type;
@@ -58,6 +59,7 @@ static inline void tls_make_aad(int recv,
 static void trim_sg(struct sock *sk, struct scatterlist *sg,
 		    int *sg_num_elem, unsigned int *sg_size, int target_size)
 {
+	pr_info("trim_sg TLS");
 	int i = *sg_num_elem - 1;
 	int trim = *sg_size - target_size;
 
@@ -86,6 +88,7 @@ out:
 
 static void trim_both_sgl(struct sock *sk, int target_size)
 {
+	pr_info("trim_both_sgl TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 
@@ -107,6 +110,7 @@ static int alloc_sg(struct sock *sk, int len, struct scatterlist *sg,
 		    int *sg_num_elem, unsigned int *sg_size,
 		    int first_coalesce)
 {
+	pr_info("alloc_sg TLS");
 	struct page_frag *pfrag;
 	unsigned int size = *sg_size;
 	int num_elem = *sg_num_elem, use = 0, rc = 0;
@@ -162,6 +166,7 @@ out:
 
 static int alloc_encrypted_sg(struct sock *sk, int len)
 {
+	pr_info("alloc_encrypted_sg TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 	int rc = 0;
@@ -174,6 +179,7 @@ static int alloc_encrypted_sg(struct sock *sk, int len)
 
 static int alloc_plaintext_sg(struct sock *sk, int len)
 {
+	pr_info("alloc_plaintext_sg TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 	int rc = 0;
@@ -188,6 +194,7 @@ static int alloc_plaintext_sg(struct sock *sk, int len)
 static void free_sg(struct sock *sk, struct scatterlist *sg,
 		    int *sg_num_elem, unsigned int *sg_size)
 {
+	pr_info("free_sg TLS");
 	int i, n = *sg_num_elem;
 
 	for (i = 0; i < n; ++i) {
@@ -200,6 +207,7 @@ static void free_sg(struct sock *sk, struct scatterlist *sg,
 
 static void tls_free_both_sg(struct sock *sk)
 {
+	pr_info("tls_free_both_sg TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 
@@ -214,6 +222,7 @@ static int tls_do_encryption(struct tls_context *tls_ctx,
 			     struct tls_sw_context *ctx, size_t data_len,
 			     gfp_t flags)
 {
+	pr_info("tls_do_encryption TLS");
 	unsigned int req_size = sizeof(struct aead_request) +
 		crypto_aead_reqsize(ctx->aead_send);
 	struct aead_request *aead_req;
@@ -242,6 +251,7 @@ static int tls_do_encryption(struct tls_context *tls_ctx,
 static int tls_push_record(struct sock *sk, int flags,
 			   unsigned char record_type)
 {
+	pr_info("tls_push_record TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 	int rc;
@@ -289,12 +299,14 @@ static int tls_push_record(struct sock *sk, int flags,
 
 static int tls_sw_push_pending_record(struct sock *sk, int flags)
 {
+	pr_info("tls_sw_push_pending_record TLS");
 	return tls_push_record(sk, flags, TLS_RECORD_TYPE_DATA);
 }
 
 static int zerocopy_from_iter(struct sock *sk, struct iov_iter *from,
 			      int length)
 {
+	pr_info("zerocopy_from_iter TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 	struct page *pages[MAX_SKB_FRAGS];
@@ -351,6 +363,7 @@ out:
 static int memcopy_from_iter(struct sock *sk, struct iov_iter *from,
 			     int bytes)
 {
+	pr_info("memcopy_from_iter TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 	struct scatterlist *sg = ctx->sg_plaintext_data;
@@ -379,6 +392,7 @@ out:
 
 int tls_sw_sendmsg(struct sock *sk, struct msghdr *msg, size_t size)
 {
+	pr_info("tls_sw_sendmsg TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 	int ret = 0;
@@ -530,6 +544,7 @@ send_end:
 int tls_sw_sendpage(struct sock *sk, struct page *page,
 		    int offset, size_t size, int flags)
 {
+	pr_info("tls_sw_sendpage TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 	int ret = 0;
@@ -641,6 +656,7 @@ sendpage_end:
 
 static void tls_sw_free_resources(struct sock *sk)
 {
+	pr_info("tls_sw_free_resources TLS");
 	struct tls_context *tls_ctx = tls_get_ctx(sk);
 	struct tls_sw_context *ctx = tls_sw_ctx(tls_ctx);
 
@@ -654,6 +670,7 @@ static void tls_sw_free_resources(struct sock *sk)
 
 int tls_set_sw_offload(struct sock *sk, struct tls_context *ctx)
 {
+	pr_info("tls_set_sw_offload TLS");
 	char keyval[TLS_CIPHER_AES_GCM_128_KEY_SIZE];
 	struct tls_crypto_info *crypto_info;
 	struct tls12_crypto_info_aes_gcm_128 *gcm_128_info;

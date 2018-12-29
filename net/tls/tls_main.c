@@ -50,6 +50,7 @@ static struct proto tls_sw_prot;
 
 int wait_on_pending_writer(struct sock *sk, long *timeo)
 {
+	pr_info("wait_on_pending_writer TLS");
 	int rc = 0;
 	DEFINE_WAIT_FUNC(wait, woken_wake_function);
 
@@ -78,6 +79,7 @@ int tls_push_sg(struct sock *sk,
 		u16 first_offset,
 		int flags)
 {
+	pr_info("tls_push_sg TLS");
 	int sendpage_flags = flags | MSG_SENDPAGE_NOTLAST;
 	int ret = 0;
 	struct page *p;
@@ -127,6 +129,7 @@ retry:
 
 static int tls_handle_open_record(struct sock *sk, int flags)
 {
+	pr_info("tls_handle_open_record TLS");
 	struct tls_context *ctx = tls_get_ctx(sk);
 
 	if (tls_is_pending_open_record(ctx))
@@ -138,6 +141,7 @@ static int tls_handle_open_record(struct sock *sk, int flags)
 int tls_proccess_cmsg(struct sock *sk, struct msghdr *msg,
 		      unsigned char *record_type)
 {
+	pr_info("tls_proccess_cmsg TLS");
 	struct cmsghdr *cmsg;
 	int rc = -EINVAL;
 
@@ -173,6 +177,7 @@ int tls_proccess_cmsg(struct sock *sk, struct msghdr *msg,
 int tls_push_pending_closed_record(struct sock *sk, struct tls_context *ctx,
 				   int flags, long *timeo)
 {
+	pr_info("tls_push_pending_closed_record TLS");
 	struct scatterlist *sg;
 	u16 offset;
 
@@ -188,6 +193,7 @@ int tls_push_pending_closed_record(struct sock *sk, struct tls_context *ctx,
 
 static void tls_write_space(struct sock *sk)
 {
+	pr_info("tls_write_space TLS");
 	struct tls_context *ctx = tls_get_ctx(sk);
 
 	if (!sk->sk_write_pending && tls_is_pending_closed_record(ctx)) {
@@ -211,6 +217,7 @@ static void tls_write_space(struct sock *sk)
 
 static void tls_sk_proto_close(struct sock *sk, long timeout)
 {
+	pr_info("tls_sk_proto_close TLS");
 	struct tls_context *ctx = tls_get_ctx(sk);
 	long timeo = sock_sndtimeo(sk, 0);
 	void (*sk_proto_close)(struct sock *sk, long timeout);
@@ -246,6 +253,7 @@ static void tls_sk_proto_close(struct sock *sk, long timeout)
 static int do_tls_getsockopt_tx(struct sock *sk, char __user *optval,
 				int __user *optlen)
 {
+	pr_info("do_tls_getsockopt_tx TLS");
 	int rc = 0;
 	struct tls_context *ctx = tls_get_ctx(sk);
 	struct tls_crypto_info *crypto_info;
@@ -311,6 +319,7 @@ out:
 static int do_tls_getsockopt(struct sock *sk, int optname,
 			     char __user *optval, int __user *optlen)
 {
+	pr_info("do_tls_getsockopt TLS");
 	int rc = 0;
 
 	switch (optname) {
@@ -327,6 +336,7 @@ static int do_tls_getsockopt(struct sock *sk, int optname,
 static int tls_getsockopt(struct sock *sk, int level, int optname,
 			  char __user *optval, int __user *optlen)
 {
+	pr_info("tls_getsockopt TLS");
 	struct tls_context *ctx = tls_get_ctx(sk);
 
 	if (level != SOL_TLS)
@@ -338,6 +348,7 @@ static int tls_getsockopt(struct sock *sk, int level, int optname,
 static int do_tls_setsockopt_tx(struct sock *sk, char __user *optval,
 				unsigned int optlen)
 {
+	pr_info("do_tls_setsockopt_tx TLS");
 	struct tls_crypto_info *crypto_info, tmp_crypto_info;
 	struct tls_context *ctx = tls_get_ctx(sk);
 	struct proto *prot = NULL;
@@ -414,6 +425,7 @@ out:
 static int do_tls_setsockopt(struct sock *sk, int optname,
 			     char __user *optval, unsigned int optlen)
 {
+	pr_info("do_tls_setsockopt TLS");
 	int rc = 0;
 
 	switch (optname) {
@@ -432,6 +444,7 @@ static int do_tls_setsockopt(struct sock *sk, int optname,
 static int tls_setsockopt(struct sock *sk, int level, int optname,
 			  char __user *optval, unsigned int optlen)
 {
+	pr_info("tls_setsockopt TLS");
 	struct tls_context *ctx = tls_get_ctx(sk);
 
 	if (level != SOL_TLS)
@@ -442,6 +455,7 @@ static int tls_setsockopt(struct sock *sk, int level, int optname,
 
 static int tls_init(struct sock *sk)
 {
+	pr_info("tls_init TLS");
 	struct inet_connection_sock *icsk = inet_csk(sk);
 	struct tls_context *ctx;
 	int rc = 0;
@@ -477,6 +491,7 @@ static struct tcp_ulp_ops tcp_tls_ulp_ops __read_mostly = {
 
 static int __init tls_register(void)
 {
+	pr_info("tls_register TLS");
 	tls_base_prot			= tcp_prot;
 	tls_base_prot.setsockopt	= tls_setsockopt;
 	tls_base_prot.getsockopt	= tls_getsockopt;
@@ -493,6 +508,7 @@ static int __init tls_register(void)
 
 static void __exit tls_unregister(void)
 {
+	pr_info("tls_unregister TLS");
 	tcp_unregister_ulp(&tcp_tls_ulp_ops);
 }
 

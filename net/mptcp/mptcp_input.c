@@ -1118,6 +1118,7 @@ struct mp_join *mptcp_find_join(const struct sk_buff *skb)
 				return NULL;  /* don't parse partial options */
 			if (opcode == TCPOPT_MPTCP &&
 			    ((struct mptcp_option *)(ptr - 2))->sub == MPTCP_SUB_JOIN) {
+					
 				return (struct mp_join *)(ptr - 2);
 			}
 			ptr += opsize - 2;
@@ -1611,7 +1612,8 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			 struct tcp_sock *tp)
 {
 	const struct mptcp_option *mp_opt = (struct mptcp_option *)ptr;
-	pr_info("Checking MPTCP client #THARINDU\n");
+	pr_info("MPTCP mptcp_parse_options opsize = %d #THARINDU\n", opsize);
+	pr_info("MPTCP mptcp_parse_options case = %d #THARINDU\n",mp_opt->sub);
 	/* If the socket is mp-capable we would have a mopt. */
 	if (!mopt)
 		return;
@@ -1620,7 +1622,7 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 	case MPTCP_SUB_CAPABLE:
 	{
 		const struct mp_capable *mpcapable = (struct mp_capable *)ptr;
-		pr_info("Checking MPTCP client MP_CAPABLE #THARINDU\n");
+		pr_info(" MP_CAPABLE #THARINDU\n");
 		if (opsize != MPTCP_SUB_LEN_CAPABLE_SYN &&
 		    opsize != MPTCP_SUB_LEN_CAPABLE_ACK) {
 			mptcp_debug("%s: mp_capable: bad option size %d\n",
@@ -1675,7 +1677,7 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 		switch (opsize) {
 		case MPTCP_SUB_LEN_JOIN_SYN:
 			pr_info("MPTCP MP_JOIN SYN starts");//#THARINDU
-			/*
+			
 			//#THARINDU
 			mopt->is_mp_join = 1;
 			mopt->saw_mpc = 1;
@@ -1684,17 +1686,18 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
 
-			*/
+			
 
 			//mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
-			//mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
+			mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
 			//mopt->hmac_tnb_rcv = mpjoin->hmac_tnb; //#THARINDU
 			//pr_info("mopt->hmac_tnb_rcv = %d\n",mopt->hmac_tnb_rcv);//#THARINDU
-			//pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
+			pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
 			//pr_info("mpjoin->hmac_tnb = %d\n",mpjoin->hmac_tnb);//#THARINDU
 			//pr_info("mopt->mptcp_rem_token = %d", mopt->mptcp_rem_token);//#THARINDU
 			//THARINDU
 			pr_info("MPTCP MP_JOIN SYN");//#THARINDU
+			/*
 			int a = 100;
 			if (a == 100) {
 				mopt->is_mp_join = 1;
@@ -1716,6 +1719,7 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 				mopt->mptcp_recv_nonce = 0;
 				pr_info("Else part of MP_JOIN SYN");//#THARINDU
 			}
+			*/
 			//THARINDU
 			break;
 		case MPTCP_SUB_LEN_JOIN_SYNACK:
