@@ -1679,14 +1679,27 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			mopt->saw_mpc = 1;
 			mopt->low_prio = mpjoin->b;
 			mopt->rem_id = mpjoin->addr_id;
-			mopt->mptcp_rem_token = mpjoin->u.syn.token;
+			//mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
-			mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
-			pr_info("mopt->hmac_tnb_rcv = %d\n",mopt->hmac_tnb_rcv);//#THARINDU
-			pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
+			//mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
+			//pr_info("mopt->hmac_tnb_rcv = %d\n",mopt->hmac_tnb_rcv);//#THARINDU
+			//pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
 			pr_info("mopt->mptcp_rem_token = %d", mopt->mptcp_rem_token);//#THARINDU
 			//THARINDU
 			pr_info("MPTCP MP_JOIN SYN");//#THARINDU
+			
+			/*we have to generate the mac of token and check it with the value sent by client*/
+			if (mpjoin->u.syn.token == 5000) {
+				mopt->mptcp_rem_token = token_tnb;
+				pr_info("mopt->mptcp_rem_token = token_tnb= %d",mopt->mptcp_rem_token);//#THARINDU
+				break;
+			} else {
+				pr_info("Else part of drop_me_tnb");//#THARINDU
+			}
+
+			
+			
+			/*
 			if (mopt->hmac_tnb_rcv == 100) {
 				mopt->drop_me = 1;
 				pr_info("if part of drop_me_tnb %d\n",mopt->hmac_tnb_rcv);//#THARINDU
@@ -1695,6 +1708,11 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 				pr_info("Else part of drop_me_tnb %d\n",mopt->hmac_tnb_rcv);//#THARINDU
 			}
 			//THARINDU
+			*/
+
+
+
+
 			break;
 		case MPTCP_SUB_LEN_JOIN_SYNACK:
 			mopt->saw_mpc = 1;

@@ -54,6 +54,14 @@
 	#define htonll(x) (x)
 #endif
 
+/*
+	varibale to store token THARINDU
+*/
+	extern int token_tnb;
+
+//#THARINDU
+
+
 struct mptcp_loc4 {
 	u8		loc4_id;
 	u8		low_prio:1;
@@ -101,7 +109,7 @@ struct mptcp_request_sock {
 			/*
 			this is to store the HMAC/MAC #THARINDU
 			*/
-			u32		mptcp_hmac_for_auth_tnb;//#THARINDU
+			//u32		mptcp_hmac_for_auth_tnb;//#THARINDU
 
 		};
 	};
@@ -159,7 +167,7 @@ struct mptcp_options_received {
 	u32	mptcp_recv_nonce;
 	u64	mptcp_recv_tmac;
 	u8	mptcp_recv_mac[20];
-	u32 hmac_tnb_rcv; //#THARINDU
+	//u32 hmac_tnb_rcv; //#THARINDU
 };
 
 struct mptcp_tcp_sock {
@@ -331,7 +339,7 @@ struct mptcp_cb {
 	__u64	mptcp_rem_key;
 	__u32	mptcp_loc_token;
 	__u32	mptcp_rem_token;
-	__u32	hmac_tnb_rcv; //#THARINDU
+	//__u32	hmac_tnb_rcv; //#THARINDU
 
 
 #define MPTCP_PM_SIZE 608
@@ -526,7 +534,7 @@ struct mp_join {
 		struct {
 			u32	token;
 			u32	nonce;
-			u32 hmac_tnb;//#THARINDU
+			//u32 hmac_tnb;//#THARINDU
 		} syn;
 		struct {
 			__u64	mac;
