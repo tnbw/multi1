@@ -84,6 +84,13 @@ bool mptcp_init_failed __read_mostly;
 struct static_key mptcp_static_key = STATIC_KEY_INIT_FALSE;
 EXPORT_SYMBOL(mptcp_static_key);
 
+//#THARINDU
+//XOR funtion with the token and the key
+int xor_token_key_tnb(int token, int key){
+	return token^key;
+}
+//#THARINDU
+
 static int proc_mptcp_path_manager(struct ctl_table *ctl, int write,
 				   void __user *buffer, size_t *lenp,
 				   loff_t *ppos)

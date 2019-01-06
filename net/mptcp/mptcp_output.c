@@ -36,6 +36,14 @@
 #include <net/mptcp_v6.h>
 #include <net/sock.h>
 
+/*
+	variable to save the tls key for the token
+	#THARINDU
+*/
+	int temp_tls_toke_tnb;
+	//int external_key_tnb = 5000; //this value should be the key value from application layer
+//#THARINDU
+
 static const int mptcp_dss_len = MPTCP_SUB_LEN_DSS_ALIGN +
 				 MPTCP_SUB_LEN_ACK_ALIGN +
 				 MPTCP_SUB_LEN_SEQ_ALIGN;
@@ -893,13 +901,21 @@ void mptcp_syn_options(const struct sock *sk, struct tcp_out_options *opts,
 
 		opts->mptcp_options |= OPTION_MP_JOIN | OPTION_TYPE_SYN;
 		*remaining -= MPTCP_SUB_LEN_JOIN_SYN_ALIGN;
-		opts->mp_join_syns.token = mpcb->mptcp_rem_token;
+		/*
+			should take the tls shared key and use it to MAC the token//#THARINDU
+
+			opts->mp_join_syns.token = mpcb->mptcp_rem_token;
+
+			should change this line
+		*/
+
+		//opts->mp_join_syns.token = mpcb->mptcp_rem_token; this line has changed in the next line. this is the original code
+		opts->mp_join_syns.token = xor_token_key_tnb(mpcb->mptcp_rem_token,5000);
+		pr_info("mptcp_output.c xored token : %d",opts->mp_join_syns.token);
 		opts->mp_join_syns.low_prio  = tp->mptcp->low_prio;
 		opts->addr_id = tp->mptcp->loc_id;
 		opts->mp_join_syns.sender_nonce = tp->mptcp->mptcp_loc_nonce;
-		/*
-		add hmac/mac values #THARINDU
-		*/
+		
 		//pr_info("Before assigning the value to mptcp_hmac_tnb value is %d", opts->mp_join_syns.mptcp_hmac_tnb); //#THARINDU
 		//opts->mp_join_syns.mptcp_hmac_tnb = 100;//#THARINDU
 		//pr_info("The value I assigned to mptcp_hmac_tnb is 100, and %d", opts->mp_join_syns.mptcp_hmac_tnb); //#THARINDU
@@ -1107,8 +1123,8 @@ void mptcp_options_write(__be32 *ptr, struct tcp_sock *tp,
 
 		if (OPTION_TYPE_SYN & opts->mptcp_options) {
 			mpj->len = MPTCP_SUB_LEN_JOIN_SYN;
-			//mpj->u.syn.token = opts->mp_join_syns.token;
-			mpj->u.syn.token = 5000; //#THARINDU new token to test 
+			mpj->u.syn.token = opts->mp_join_syns.token;
+			//mpj->u.syn.token = 5000; //#THARINDU new token to test 
 			/*
 			here we have to generate the mac of token and send it to server
 			*/

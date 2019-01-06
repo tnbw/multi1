@@ -1692,8 +1692,8 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			//THARINDU
 			pr_info("MPTCP MP_JOIN SYN");//#THARINDU
 			
-			/*we have to generate the mac of token and check it with the value sent by client*/
-			if (mpjoin->u.syn.token == 5000) {
+			/*check wheather the value is equal to the tls shared key*/
+			if (mpjoin->u.syn.token == xor_token_key_tnb(token_tnb,5000)) {
 				mopt->mptcp_rem_token = token_tnb;
 				pr_info("mopt->mptcp_rem_token = token_tnb= %d",mopt->mptcp_rem_token);//#THARINDU
 				break;
@@ -1719,7 +1719,7 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			}
 			*/
 			//THARINDU
-			*/
+			
 
 
 

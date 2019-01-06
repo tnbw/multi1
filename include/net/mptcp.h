@@ -56,9 +56,18 @@
 
 /*
 	varibale to store token THARINDU
+	variable to store external key
 */
-	extern int token_tnb;
+	extern int token_tnb; //store token
+	//extern int external_key_tnb; //exyternal key
 
+//#THARINDU
+
+/*
+	variable to save the tls key for the token
+	#THARINDU
+*/
+	extern int temp_tls_toke_tnb;
 //#THARINDU
 
 
@@ -793,6 +802,14 @@ extern struct hlist_nulls_head tk_hashtable[MPTCP_HASH_SIZE];
  * recycled. See also c25eb3bfb9729.
  */
 #define MPTCP_REQSK_NULLS_BASE (1U << 29)
+
+//#THARINDU
+//XOR funtion with the token and the key
+int xor_token_key_tnb(int token, int key);
+//#THARINDU
+
+
+
 
 
 void mptcp_data_ready(struct sock *sk);
