@@ -1612,7 +1612,7 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			 struct tcp_sock *tp)
 {
 	const struct mptcp_option *mp_opt = (struct mptcp_option *)ptr;
-	pr_info("MPTCP mptcp_parse_options opsize = %d #THARINDU\n", opsize);
+	pr_info("MPTCP mptcp_parse_options opsize = %d #THARINDU\n", opsize);//THARINDU 
 	pr_info("MPTCP mptcp_parse_options case = %d #THARINDU\n",mp_opt->sub);
 	/* If the socket is mp-capable we would have a mopt. */
 	if (!mopt)
