@@ -86,7 +86,7 @@ EXPORT_SYMBOL(mptcp_static_key);
 
 //#THARINDU
 //XOR funtion with the token and the key
-int xor_token_key_tnb(int token, int key){
+int xor_token_key_tnb(int token, char key[4]){
 	return token^key;
 }
 //#THARINDU

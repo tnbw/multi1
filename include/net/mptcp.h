@@ -59,7 +59,7 @@
 	variable to store external key
 */
 	extern int token_tnb; //store token
-	//extern int external_key_tnb; //exyternal key
+	extern char external_key_tnb[4]; //external key
 
 //#THARINDU
 
@@ -67,7 +67,7 @@
 	variable to save the tls key for the token
 	#THARINDU
 */
-	extern int temp_tls_toke_tnb;
+	//extern int temp_tls_toke_tnb;
 //#THARINDU
 
 
@@ -805,7 +805,7 @@ extern struct hlist_nulls_head tk_hashtable[MPTCP_HASH_SIZE];
 
 //#THARINDU
 //XOR funtion with the token and the key
-int xor_token_key_tnb(int token, int key);
+int xor_token_key_tnb(int token, char key[4]);
 //#THARINDU
 
 

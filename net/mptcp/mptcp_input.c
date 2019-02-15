@@ -1612,8 +1612,6 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			 struct tcp_sock *tp)
 {
 	const struct mptcp_option *mp_opt = (struct mptcp_option *)ptr;
-	pr_info("MPTCP mptcp_parse_options opsize = %d #THARINDU\n", opsize);//THARINDU 
-	pr_info("MPTCP mptcp_parse_options case = %d #THARINDU\n",mp_opt->sub);
 	/* If the socket is mp-capable we would have a mopt. */
 	if (!mopt)
 		return;
@@ -1685,15 +1683,13 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			mopt->rem_id = mpjoin->addr_id;
 			//mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
-			//mopt->hmac_tnb_rcv = mpjoin->u.syn.hmac_tnb; //#THARINDU
-			//pr_info("mopt->hmac_tnb_rcv = %d\n",mopt->hmac_tnb_rcv);//#THARINDU
-			//pr_info("mpjoin->u.syn.hmac_tnb = %d\n",mpjoin->u.syn.hmac_tnb);//#THARINDU
+			
 			pr_info("mopt->mptcp_rem_token = %d", mopt->mptcp_rem_token);//#THARINDU
 			//THARINDU
 			pr_info("MPTCP MP_JOIN SYN");//#THARINDU
-			
+			pr_info("TNB External key : %s",external_key_tnb);//#THARINDU
 			/*check wheather the value is equal to the tls shared key*/
-			if (mpjoin->u.syn.token == xor_token_key_tnb(token_tnb,5000)) {
+			if (mpjoin->u.syn.token == xor_token_key_tnb(token_tnb,external_key_tnb)) {
 				mopt->mptcp_rem_token = token_tnb;
 				pr_info("mopt->mptcp_rem_token = token_tnb= %d",mopt->mptcp_rem_token);//#THARINDU
 				break;

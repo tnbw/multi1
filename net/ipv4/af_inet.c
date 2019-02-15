@@ -123,6 +123,8 @@
 #include <net/l3mdev.h>
 
 
+char external_key_tnb[20]; //THARINDU
+
 /* The inetsw table contains everything that inet_create needs to
  * build a new socket.
  */
@@ -433,6 +435,7 @@ EXPORT_SYMBOL(inet_release);
 
 int inet_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 {
+	//THARINDU
 	struct sockaddr_in *addr = (struct sockaddr_in *)uaddr;
 	struct sock *sk = sock->sk;
 	struct inet_sock *inet = inet_sk(sk);
@@ -441,7 +444,10 @@ int inet_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 	int chk_addr_ret;
 	u32 tb_id = RT_TABLE_LOCAL;
 	int err;
-
+	//external_key_tnb = addr->sin_zero;//THARINDU addr->sin_zero;
+	//strcpy(external_key_tnb,addr->sin_zero);//THARINDU -- uncomment this after testing
+	strcpy(external_key_tnb,"500");//THARINDU testing- please delete this
+	pr_info("external_key_tnb in af_inet : %s",external_key_tnb);
 	/* If the socket has its own bind function then use it. (RAW) */
 	if (sk->sk_prot->bind) {
 		err = sk->sk_prot->bind(sk, uaddr, addr_len);
@@ -580,6 +586,12 @@ int __inet_stream_connect(struct socket *sock, struct sockaddr *uaddr,
 	long timeo;
 
 	/*
+	struct sockaddr_in *addr = (struct sockaddr_in *)uaddr; //THARINDU
+	strcpy(external_key_tnb,addr->sin_zero);//THARINDU
+	pr_info("external_key_tnb in af_inet _inet_stream_connect : %s",external_key_tnb);//THARINDU
+	*/
+
+	/*
 	 * uaddr can be NULL and addr_len can be 0 if:
 	 * sk is a TCP fastopen active socket and
 	 * TCP_FASTOPEN_CONNECT sockopt is set and
@@ -684,6 +696,13 @@ int inet_stream_connect(struct socket *sock, struct sockaddr *uaddr,
 	lock_sock(sock->sk);
 	err = __inet_stream_connect(sock, uaddr, addr_len, flags, 0);
 	release_sock(sock->sk);
+
+	struct sockaddr_in *addr = (struct sockaddr_in *)uaddr; //THARINDU
+	//strcpy(external_key_tnb,addr->sin_zero);//THARINDU -- uncomment this after testing
+	strcpy(external_key_tnb,"500");//THARINDU testing- please delete this
+	pr_info("external_key_tnb in af_inet inet_stream_connect : %s",external_key_tnb);//THARINDU
+
+
 	return err;
 }
 EXPORT_SYMBOL(inet_stream_connect);
