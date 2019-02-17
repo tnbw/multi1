@@ -1649,10 +1649,8 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 
 		if (opsize >= MPTCP_SUB_LEN_CAPABLE_SYN)
 			mopt->mptcp_sender_key = mpcapable->sender_key;
-			pr_info("MPTCP MP_CAPABLE SYN sender key - %llu", mopt->mptcp_sender_key);//#THARINDU
 		if (opsize == MPTCP_SUB_LEN_CAPABLE_ACK)
 			mopt->mptcp_receiver_key = mpcapable->receiver_key;
-			pr_info("MPTCP MP_CAPABLE ACK receivers key - %llu", mopt->mptcp_receiver_key);//#THARINDU
 		mopt->mptcp_ver = mpcapable->ver;
 		break;
 	}
@@ -1683,18 +1681,13 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			mopt->rem_id = mpjoin->addr_id;
 			//mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
-			
-			pr_info("mopt->mptcp_rem_token = %d", mopt->mptcp_rem_token);//#THARINDU
-			//THARINDU
-			pr_info("MPTCP MP_JOIN SYN");//#THARINDU
-			pr_info("TNB External key : %s",external_key_tnb);//#THARINDU
-			/*check wheather the value is equal to the tls shared key*/
+			/*check wheather the value is equal to the xored token*/
 			if (mpjoin->u.syn.token == xor_token_key_tnb(token_tnb,external_key_tnb)) {
 				mopt->mptcp_rem_token = token_tnb;
 				pr_info("mopt->mptcp_rem_token = token_tnb= %d",mopt->mptcp_rem_token);//#THARINDU
 				break;
 			} else {
-				pr_info("Else part of drop_me_tnb");//#THARINDU
+				pr_info("XORed token doesnot matched. MP_JOIN dropped");//#THARINDU
 			}
 
 			

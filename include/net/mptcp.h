@@ -59,17 +59,9 @@
 	variable to store external key
 */
 	extern int token_tnb; //store token
-	extern char external_key_tnb[4]; //external key
+	extern long external_key_tnb; //external key
 
 //#THARINDU
-
-/*
-	variable to save the tls key for the token
-	#THARINDU
-*/
-	//extern int temp_tls_toke_tnb;
-//#THARINDU
-
 
 struct mptcp_loc4 {
 	u8		loc4_id;
@@ -136,7 +128,7 @@ struct mptcp_request_sock {
 //#THARINDU
 use a external variable to store the TLS shared key
 */
-extern int tls_shared_key_tnb;
+//extern int tls_shared_key_tnb;
 //#THARINDU
 struct mptcp_options_received {
 	u16	saw_mpc:1,
@@ -805,7 +797,7 @@ extern struct hlist_nulls_head tk_hashtable[MPTCP_HASH_SIZE];
 
 //#THARINDU
 //XOR funtion with the token and the key
-int xor_token_key_tnb(int token, char key[4]);
+int xor_token_key_tnb(int token, int key);
 //#THARINDU
 
 

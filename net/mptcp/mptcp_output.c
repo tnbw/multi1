@@ -911,7 +911,7 @@ void mptcp_syn_options(const struct sock *sk, struct tcp_out_options *opts,
 		pr_info("TNB External key in mptcp_output: %d",external_key_tnb);//#THARINDU
 		//opts->mp_join_syns.token = mpcb->mptcp_rem_token; this line has changed in the next line. this is the original code
 		opts->mp_join_syns.token = xor_token_key_tnb(mpcb->mptcp_rem_token,external_key_tnb);
-		pr_info("mptcp_output.c xored token : %d",opts->mp_join_syns.token);
+		pr_info("mptcp_syn_options() xored token : %d",opts->mp_join_syns.token);
 		opts->mp_join_syns.low_prio  = tp->mptcp->low_prio;
 		opts->addr_id = tp->mptcp->loc_id;
 		opts->mp_join_syns.sender_nonce = tp->mptcp->mptcp_loc_nonce;
@@ -1125,16 +1125,10 @@ void mptcp_options_write(__be32 *ptr, struct tcp_sock *tp,
 			mpj->len = MPTCP_SUB_LEN_JOIN_SYN;
 			mpj->u.syn.token = opts->mp_join_syns.token;
 			//mpj->u.syn.token = 5000; //#THARINDU new token to test 
-			/*
-			here we have to generate the mac of token and send it to server
-			*/
 			mpj->u.syn.nonce = opts->mp_join_syns.sender_nonce;
 			mpj->b = opts->mp_join_syns.low_prio;
 			mpj->addr_id = opts->addr_id;
-			//#THARINDU
-			//mpj->u.syn.hmac_tnb = opts->mp_join_syns.mptcp_hmac_tnb;
-			//pr_info("mptcp_output.c mptcp_option_wite() mpj->u.syn.hmac_tnb = %d", mpj->u.syn.hmac_tnb);//##THARINDU
-			pr_info("mpj->u.syn.token = %d", mpj->u.syn.token);//#THARINDU
+			pr_info("mptcp_options_write() mpj->u.syn.token = %d", mpj->u.syn.token);//#THARINDU
 			ptr += MPTCP_SUB_LEN_JOIN_SYN_ALIGN >> 2;
 		} else if (OPTION_TYPE_SYNACK & opts->mptcp_options) {
 			mpj->len = MPTCP_SUB_LEN_JOIN_SYNACK;
