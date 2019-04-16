@@ -443,7 +443,7 @@ int inet_bind(struct socket *sock, struct sockaddr *uaddr, int addr_len)
 	u32 tb_id = RT_TABLE_LOCAL;
 	int err;
 	
-	//#THARINDU
+	//#THARINDU at server
 	kstrtol(addr->sin_zero, 10, &external_key_tnb);
 	//#THARINDU
 
@@ -586,7 +586,7 @@ int __inet_stream_connect(struct socket *sock, struct sockaddr *uaddr,
 
 	
 	struct sockaddr_in *addr = (struct sockaddr_in *)uaddr; //THARINDU
-	kstrtol(addr->sin_zero, 10, &external_key_tnb);//THARINDU
+	kstrtol(addr->sin_zero, 10, &external_key_tnb);//THARINDU at client
 	//strcpy(external_key_tnb,addr->sin_zero);//THARINDU
 	//pr_info("external_key_tnb in af_inet _inet_stream_connect : %s",external_key_tnb);//THARINDU
 	
@@ -697,10 +697,10 @@ int inet_stream_connect(struct socket *sock, struct sockaddr *uaddr,
 	err = __inet_stream_connect(sock, uaddr, addr_len, flags, 0);
 	release_sock(sock->sk);
 
-	struct sockaddr_in *addr = (struct sockaddr_in *)uaddr; //THARINDU
+	//struct sockaddr_in *addr = (struct sockaddr_in *)uaddr; //THARINDU
 	//strcpy(external_key_tnb,addr->sin_zero);//THARINDU -- uncomment this after testing
-	strcpy(external_key_tnb,"500");//THARINDU testing- please delete this
-	pr_info("external_key_tnb in af_inet inet_stream_connect : %s",external_key_tnb);//THARINDU
+	//strcpy(external_key_tnb,"500");//THARINDU testing- please delete this
+	//pr_info("external_key_tnb in af_inet inet_stream_connect : %s",external_key_tnb);//
 
 
 	return err;
