@@ -1478,6 +1478,8 @@ SYSCALL_DEFINE3(bind, int, fd, struct sockaddr __user *, umyaddr, int, addrlen)
 		}
 		fput_light(sock->file, fput_needed);
 	}
+	//#THARINDU 
+	pr_info("Inside Bind system call : sockaddr_storage : %s", address.__data);//#THARINDU
 	return err;
 }
 

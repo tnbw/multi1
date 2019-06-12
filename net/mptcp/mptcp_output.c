@@ -910,8 +910,18 @@ void mptcp_syn_options(const struct sock *sk, struct tcp_out_options *opts,
 		*/
 		pr_info("TNB External key in mptcp_output: %d",external_key_tnb);//#THARINDU
 		//opts->mp_join_syns.token = mpcb->mptcp_rem_token; this line has changed in the next line. this is the original code
-		opts->mp_join_syns.token = xor_token_key_tnb(mpcb->mptcp_rem_token,external_key_tnb);//#THARINDU
-		pr_info("mptcp_syn_options() xored token : %d",opts->mp_join_syns.token);
+		//#THARINDU
+		if(external_key_tnb==0||external_key_tnb=="0"){
+			pr_info("Using Normal MPTCP THARINDU");//#THARINDU
+			opts->mp_join_syns.token = mpcb->mptcp_rem_token;		
+		}else{
+			pr_info("Using tnbMPTCP THARINDU");//#THARINDU
+			opts->mp_join_syns.token = xor_token_key_tnb(mpcb->mptcp_rem_token,external_key_tnb);//#THARINDU
+		}
+		//#THARINDU
+		
+		pr_info("mptcp_syn_options() xored to
+		ken : %d",opts->mp_join_syns.token);
 		opts->mp_join_syns.low_prio  = tp->mptcp->low_prio;
 		opts->addr_id = tp->mptcp->loc_id;
 		opts->mp_join_syns.sender_nonce = tp->mptcp->mptcp_loc_nonce;

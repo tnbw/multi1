@@ -1682,36 +1682,22 @@ void mptcp_parse_options(const uint8_t *ptr, int opsize,
 			//mopt->mptcp_rem_token = mpjoin->u.syn.token;
 			mopt->mptcp_recv_nonce = mpjoin->u.syn.nonce;
 			/*check wheather the value is equal to the xored token*/
-			if (mpjoin->u.syn.token == xor_token_key_tnb(token_tnb,external_key_tnb)) {
-				mopt->mptcp_rem_token = token_tnb;
-				pr_info("mopt->mptcp_rem_token = token_tnb= %d",mopt->mptcp_rem_token);//#THARINDU
-				break;
-			} else {
-				pr_info("XORed token doesnot matched. MP_JOIN dropped");//#THARINDU
+			//#THARINDU
+			if(external_key_tnb==0||external_key_tnb=="0"){
+				pr_info("Using Normal MPTCP THARINDU");//#THARINDU
+				mopt->mptcp_rem_token = mpjoin->u.syn.token;
+			}else{
+				pr_info("Using tnbMPTCP THARINDU");//#THARINDU
+				if (mpjoin->u.syn.token == xor_token_key_tnb(token_tnb,external_key_tnb)) {
+					mopt->mptcp_rem_token = token_tnb;
+					pr_info("mopt->mptcp_rem_token = token_tnb= %d",mopt->mptcp_rem_token);//#THARINDU
+					break;
+				} else {
+					pr_info("XORed token doesnot matched. MP_JOIN dropped");//#THARINDU
+				}
 			}
-
+			//#THARINDU
 			
-			
-			/*
-			if (mopt->hmac_tnb_rcv == 100) {
-				mopt->drop_me = 1;
-				pr_info("if part of drop_me_tnb %d\n",mopt->hmac_tnb_rcv);//#THARINDU
-				break;
-			} else {
-				mopt->is_mp_join = 1;
-				mopt->saw_mpc = 1;
-				mopt->low_prio = mpjoin->b;
-				mopt->rem_id = 0;
-				mopt->mptcp_rem_token = 0;
-				mopt->mptcp_recv_nonce = 0;
-				pr_info("Else part of MP_JOIN SYN");//#THARINDU
-			}
-			*/
-			//THARINDU
-			
-
-
-
 
 			break;
 		case MPTCP_SUB_LEN_JOIN_SYNACK:
